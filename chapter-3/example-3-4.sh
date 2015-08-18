@@ -14,3 +14,19 @@ tar cvf - `find . -mtime -1 -type f -print` > $archive.tar
 gzip $archive.tar
 echo "Directory $PWD backed up in archive file \"$archive.tar.gz\"."
 
+
+# Stephane Chazelas 指出上边代码，
+#+ 如果在发现太多到文件到时候，或者是如果文件
+#+ 名包括空格到时候，将执行失败。
+
+# Stephane Chazelas建议使用下边到两种代码之一
+
+#--------------------------------------------
+# find. -mtime -1 -type f -print0 | xargs -0 tar rvf "$archive.tar"
+# 使用gnu版本到find
+
+# find . -mtime -1 -type f -exec tar rvf "$archive.tar" '{]'\;
+# 对于其他风格到UNIX便于移植，但是比较慢。
+#--------------------------------------------
+
+exit 0
